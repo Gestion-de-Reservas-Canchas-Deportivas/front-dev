@@ -1,0 +1,155 @@
+<form class="auth-container" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div class="auth-card">
+
+    <div class="auth-header">
+      <img src="assets/images/logo.jpg" class="auth-logo" alt="Logo">
+      <h1>Crear Cuenta</h1>
+      <p>Regístrate para gestionar tus reservas</p>
+    </div>
+
+    <!-- Nombre  -->
+    <div class="form-group">
+      <label for="reg-name">Nombre </label>
+      <div class="input-with-icon">
+        <i class="fas fa-user"></i>
+        <input
+          id="reg-name"
+          type="text"
+          formControlName="name"
+          placeholder="Juan Pérez"
+        />
+      </div>
+      <small *ngIf="form.get('name')?.touched && form.get('name')?.hasError('required')">
+        El nombre es requerido.
+      </small>
+    </div>
+
+        <!-- Apellidos -->
+    <div class="form-group">
+      <label for="reg-lastName">Apellidos</label>
+      <div class="input-with-icon">
+        <i class="fas fa-user-edit"></i>
+        <input id="reg-lastName" type="text" formControlName="lastName" placeholder="García López">
+      </div>
+    </div>
+
+    <!-- Correo -->
+    <div class="form-group">
+      <label for="reg-email">Correo Electrónico</label>
+      <div class="input-with-icon">
+        <i class="fas fa-envelope"></i>
+        <input
+          id="reg-email"
+          type="email"
+          formControlName="emailAddress"
+          placeholder="tucorreo@ejemplo.com"
+        />
+      </div>
+      <small *ngIf="form.get('emailAddress')?.touched && form.get('emailAddress')?.hasError('email')">
+        Email inválido.
+      </small>
+    </div>
+
+    <!-- Teléfono -->
+    <div class="form-group">
+      <label for="reg-phone">Teléfono</label>
+      <div class="input-with-icon">
+        <i class="fas fa-phone"></i>
+        <input
+          id="reg-phone"
+          type="tel"
+          formControlName="phone"
+          placeholder="+51 123 456 789"
+        />
+      </div>
+      <small *ngIf="form.get('phone')?.touched && form.get('phone')?.hasError('required')">
+        El teléfono es requerido.
+      </small>
+    </div>
+
+        <!-- Dirección -->
+    <div class="form-group">
+      <label for="reg-address">Dirección</label>
+      <div class="input-with-icon">
+        <i class="fas fa-home"></i>
+        <input id="reg-address" type="text" formControlName="address" placeholder="Calle 123 #45-67">
+      </div>
+    </div>
+
+    <!-- Fecha de Nacimiento -->
+    <div class="form-group">
+      <label for="reg-birthDate">Fecha de Nacimiento</label>
+      <div class="input-with-icon">
+        <i class="fas fa-calendar-alt"></i>
+        <input id="reg-birthDate" type="date" formControlName="birthDate">
+      </div>
+    </div>
+
+    <!-- Contraseña -->
+    <div class="form-group">
+      <label for="reg-password">Contraseña</label>
+      <div class="input-with-icon">
+        <i class="fas fa-lock"></i>
+        <input
+          [type]="showPassword ? 'text' : 'password'"
+          id="reg-password"
+          formControlName="password"
+          placeholder="••••••••"
+        />
+        <button type="button" class="toggle-password" (click)="togglePassword()">
+          <i class="fas" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+        </button>
+      </div>
+      <small *ngIf="form.get('password')?.touched && form.get('password')?.hasError('minlength')">
+        La contraseña debe tener al menos 8 caracteres.
+      </small>
+    </div>
+
+    <!-- Confirmar password -->
+    <div class="form-group">
+      <label for="reg-confirm-password">Confirmar Contraseña</label>
+      <div class="input-with-icon">
+        <i class="fas fa-lock"></i>
+        <input
+          [type]="showPassword ? 'text' : 'password'"
+          id="reg-confirm-password"
+          formControlName="confirmPassword"
+          placeholder="••••••••"
+        />
+        <button type="button" class="toggle-password" (click)="togglePassword()">
+          <i class="fas" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+        </button>
+      </div>
+      <small *ngIf="form.hasError('mismatch')">
+        Las contraseñas no coinciden.
+      </small>
+    </div>
+
+    <!-- Términos -->
+    <div class="form-group terms-group">
+      <label class="terms-label">
+        <input type="checkbox" formControlName="terms" /> Acepto Términos y Condiciones
+      </label>
+      <small *ngIf="form.get('terms')?.touched && form.get('terms')?.hasError('required')">
+        Debes aceptar los términos.
+      </small>
+    </div>
+
+    <button type="submit" class="auth-button" [disabled]="form.invalid">
+      Registrarse
+    </button>
+
+    <div class="auth-footer">
+      <p>¿Ya tienes una cuenta? <a routerLink="/">Iniciar Sesión</a></p>
+    </div>
+
+  </div>
+
+  <div class="auth-background">
+    <div class="background-overlay"></div>
+    <div class="background-content">
+      <h2>Sistema de Gestión de Reservas</h2>
+      <p>Gestiona tus canchas deportivas de manera eficiente y profesional</p>
+    </div>
+  </div>
+</form>

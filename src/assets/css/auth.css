@@ -1,0 +1,721 @@
+/* Variables CSS para sistema de reservas deportivas */
+:root {
+  /* Colores principales - temática deportiva */
+  --primary-green: #2e7d32;
+  --primary-blue: #1976d2;
+  --accent-orange: #ff6f00;
+  --grass-green: #4caf50;
+  --field-blue: #0277bd;
+  
+  /* Colores neutros */
+  --text-primary: #1a1a1a;
+  --text-secondary: #666666;
+  --text-muted: #9e9e9e;
+  --background-light: #fafafa;
+  --border-light: #e0e0e0;
+  --border-focus: var(--primary-blue);
+  
+  /* Estados */
+  --success-bg: #e8f5e9;
+  --success-text: var(--primary-green);
+  --error-bg: #ffebee;
+  --error-text: #d32f2f;
+  --warning-bg: #fff3e0;
+  --warning-text: var(--accent-orange);
+  
+  /* Colores de fuerza de contraseña */
+  --strength-weak: #e74c3c;
+  --strength-medium: #f39c12;
+  --strength-strong: #f1c40f;
+  --strength-very-strong: #2ecc71;
+  
+  /* Espaciado */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  
+  /* Bordes y sombras */
+  --border-radius: 8px;
+  --border-radius-lg: 12px;
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.15);
+  --shadow-focus: 0 0 0 3px rgba(25, 118, 210, 0.2);
+  
+  /* Transiciones */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
+}
+
+/* Formulario principal de autenticación */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+  max-width: 420px;
+  margin: 0 auto;
+  padding: var(--spacing-xl);
+  background: white;
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-md);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Decoración temática deportiva */
+.auth-form::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--grass-green), var(--field-blue), var(--accent-orange));
+}
+
+/* Título del formulario */
+.auth-form h2 {
+  text-align: center;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-lg);
+  font-size: 1.75rem;
+  font-weight: 700;
+  position: relative;
+}
+
+.auth-form h2::after {
+  content: '⚽';
+  display: block;
+  font-size: 1.5rem;
+  margin-top: var(--spacing-sm);
+  opacity: 0.7;
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-10px); }
+  60% { transform: translateY(-5px); }
+}
+
+/* Grupos de campos */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  position: relative;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  transition: color var(--transition-fast);
+}
+
+/* Iconos en las etiquetas */
+.form-group label::before {
+  content: attr(data-icon);
+  font-size: 1rem;
+  color: var(--primary-blue);
+  transition: transform var(--transition-fast);
+}
+
+.form-group:focus-within label::before {
+  transform: scale(1.1);
+}
+
+/* Contenedor de input con icono */
+.input-with-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-with-icon i {
+  position: absolute;
+  left: 14px;
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  z-index: 2;
+  transition: all var(--transition-normal);
+  pointer-events: none;
+}
+
+/* Estilos de inputs mejorados */
+.input-with-icon input {
+  width: 100%;
+  padding: 14px 48px 14px 44px; /* Aumentado padding-right para el botón toggle */
+  border: 2px solid var(--border-light);
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  background: var(--background-light);
+  transition: all var(--transition-normal);
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+/* Input sin botón toggle (para campos que no son contraseña) */
+.input-with-icon:not(.has-toggle) input {
+  padding-right: 16px;
+}
+
+.input-with-icon input:focus {
+  outline: none;
+  border-color: var(--border-focus);
+  background: white;
+  box-shadow: var(--shadow-focus);
+  transform: translateY(-1px);
+}
+
+.input-with-icon input:focus + i,
+.input-with-icon:focus-within i {
+  color: var(--border-focus);
+  transform: scale(1.1);
+}
+
+/* Botón para mostrar/ocultar contraseña - CORREGIDO */
+.toggle-password {
+  position: absolute;
+  right: 12px; /* Reducido de 14px a 12px */
+  top: 50%;
+  transform: translateY(-50%); /* Centrado verticalmente perfecto */
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 1rem; /* Reducido ligeramente */
+  padding: 8px; /* Reducido significativamente el padding */
+  border-radius: 4px;
+  transition: all var(--transition-fast);
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px; /* Ancho fijo para mejor control */
+  height: 32px; /* Alto fijo para mejor control */
+}
+
+.toggle-password:hover {
+  color: var(--primary-blue);
+  background: rgba(25, 118, 210, 0.1);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.toggle-password:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+/* Indicador visual para campos con toggle */
+.input-with-icon.has-toggle {
+  position: relative;
+}
+
+.input-with-icon.has-toggle::after {
+  content: '';
+  position: absolute;
+  right: 44px; /* Separador visual sutil */
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1px;
+  height: 20px;
+  background: var(--border-light);
+  opacity: 0.5;
+}
+
+/* Opciones del formulario */
+.form-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+  margin: var(--spacing-sm) 0;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+}
+
+/* Checkbox "Recordarme" */
+.remember-me {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: color var(--transition-fast);
+  padding: var(--spacing-xs);
+  border-radius: var(--border-radius);
+}
+
+.remember-me:hover {
+  color: var(--text-primary);
+  background: rgba(25, 118, 210, 0.05);
+}
+
+.remember-me input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: var(--primary-blue);
+  transition: transform var(--transition-fast);
+}
+
+.remember-me input[type="checkbox"]:checked {
+  transform: scale(1.1);
+}
+
+/* Enlace "Olvidé mi contraseña" */
+.forgot-password {
+  color: var(--primary-blue);
+  text-decoration: none;
+  font-weight: 600;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--border-radius);
+  transition: all var(--transition-fast);
+}
+
+.forgot-password:hover {
+  background: rgba(25, 118, 210, 0.1);
+  text-decoration: none;
+  transform: translateY(-1px);
+}
+
+/* Botones principales */
+.auth-button {
+  padding: 14px 24px;
+  border: none;
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+  font-family: inherit;
+}
+
+.auth-button.primary {
+  background: linear-gradient(135deg, var(--primary-blue), var(--field-blue));
+  color: white;
+  box-shadow: var(--shadow-sm);
+}
+
+.auth-button.primary:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.auth-button.secondary {
+  background: white;
+  color: var(--primary-blue);
+  border: 2px solid var(--primary-blue);
+}
+
+.auth-button.secondary:hover {
+  background: var(--primary-blue);
+  color: white;
+}
+
+/* Mensajes de estado mejorados */
+.auth-message {
+  padding: 14px 16px;
+  border-radius: var(--border-radius);
+  margin-bottom: var(--spacing-lg);
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  animation: slideIn var(--transition-normal) ease-out;
+  border-left: 4px solid;
+}
+
+.auth-message::before {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.error-message {
+  background-color: var(--error-bg);
+  color: var(--error-text);
+  border-left-color: var(--error-text);
+}
+
+.error-message::before {
+  content: '⚠️';
+}
+
+.success-message {
+  background-color: var(--success-bg);
+  color: var(--success-text);
+  border-left-color: var(--success-text);
+}
+
+.success-message::before {
+  content: '✅';
+}
+
+.warning-message {
+  background-color: var(--warning-bg);
+  color: var(--warning-text);
+  border-left-color: var(--warning-text);
+}
+
+.warning-message::before {
+  content: '⚡';
+}
+
+/* Estilos específicos para el formulario de registro */
+.password-strength {
+  margin-top: var(--spacing-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  animation: fadeIn var(--transition-normal) ease-out;
+}
+
+.strength-bar {
+  height: 6px; /* Aumentado para mejor visibilidad */
+  background-color: var(--border-light);
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.strength-bar::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 0%;
+  background-color: var(--strength-weak);
+  transition: width var(--transition-slow), background-color var(--transition-normal);
+  border-radius: 3px;
+}
+
+.strength-text {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.strength-text span {
+  font-weight: 600;
+  transition: color var(--transition-normal);
+}
+
+/* Indicadores de fuerza de contraseña mejorados */
+.password-weak .strength-bar::after {
+  width: 25%;
+  background: linear-gradient(90deg, var(--strength-weak), #c0392b);
+}
+
+.password-weak .strength-text span {
+  color: var(--strength-weak);
+}
+
+.password-medium .strength-bar::after {
+  width: 50%;
+  background: linear-gradient(90deg, var(--strength-medium), #e67e22);
+}
+
+.password-medium .strength-text span {
+  color: var(--strength-medium);
+}
+
+.password-strong .strength-bar::after {
+  width: 75%;
+  background: linear-gradient(90deg, var(--strength-strong), #f4d03f);
+}
+
+.password-strong .strength-text span {
+  color: var(--strength-strong);
+}
+
+.password-very-strong .strength-bar::after {
+  width: 100%;
+  background: linear-gradient(90deg, var(--strength-very-strong), #27ae60);
+}
+
+.password-very-strong .strength-text span {
+  color: var(--strength-very-strong);
+}
+
+/* Grupo de términos y condiciones */
+.terms-group {
+  margin-top: var(--spacing-lg);
+  padding: var(--spacing-md);
+  background: var(--background-light);
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border-light);
+}
+
+.terms-label {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-sm);
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  line-height: 1.5;
+  transition: color var(--transition-fast);
+}
+
+.terms-label:hover {
+  color: var(--text-primary);
+}
+
+.terms-label input[type="checkbox"] {
+  margin-top: 2px; /* Alineación con el texto */
+  flex-shrink: 0;
+  accent-color: var(--primary-blue);
+}
+
+.terms-link {
+  color: var(--primary-blue);
+  text-decoration: none;
+  font-weight: 600;
+  transition: all var(--transition-fast);
+  padding: 1px 2px;
+  border-radius: 2px;
+}
+
+.terms-link:hover {
+  background: rgba(25, 118, 210, 0.1);
+  text-decoration: none;
+}
+
+/* Animaciones mejoradas */
+@keyframes fadeIn {
+  from { 
+    opacity: 0; 
+    transform: translateY(10px) scale(0.98); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0) scale(1); 
+  }
+}
+
+@keyframes slideIn {
+  from { 
+    opacity: 0; 
+    transform: translateX(-20px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateX(0); 
+  }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
+
+.auth-card {
+  animation: fadeIn 0.6s ease-out;
+}
+
+/* Estados de carga */
+.loading {
+  position: relative;
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  border: 2px solid transparent;
+  border-top: 2px solid var(--primary-blue);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Estilos específicos para reservas deportivas */
+.sport-selector {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  gap: var(--spacing-sm);
+  margin: var(--spacing-md) 0;
+}
+
+.sport-option {
+  padding: var(--spacing-md);
+  border: 2px solid var(--border-light);
+  border-radius: var(--border-radius);
+  text-align: center;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  background: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.sport-option::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(25, 118, 210, 0.1), transparent);
+  transition: left var(--transition-slow);
+}
+
+.sport-option:hover::before {
+  left: 100%;
+}
+
+.sport-option:hover,
+.sport-option.selected {
+  border-color: var(--primary-blue);
+  background: rgba(25, 118, 210, 0.05);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.sport-option.selected {
+  background: rgba(25, 118, 210, 0.1);
+}
+
+.sport-option .icon {
+  font-size: 1.5rem;
+  display: block;
+  margin-bottom: var(--spacing-xs);
+  transition: transform var(--transition-fast);
+}
+
+.sport-option:hover .icon {
+  transform: scale(1.1);
+}
+
+/* Responsividad mejorada */
+@media (max-width: 768px) {
+  .auth-form {
+    margin: var(--spacing-md);
+    padding: var(--spacing-lg);
+    max-width: none;
+  }
+  
+  .form-options {
+    flex-direction: column;
+    gap: var(--spacing-md);
+    align-items: stretch;
+  }
+  
+  .remember-me {
+    justify-content: center;
+  }
+  
+  .toggle-password {
+    width: 36px;
+    height: 36px;
+    right: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-form {
+    margin: var(--spacing-sm);
+    padding: var(--spacing-md);
+  }
+  
+  .input-with-icon input {
+    padding: 12px 44px 12px 40px;
+    font-size: 16px; /* Evita zoom en iOS */
+  }
+  
+  .input-with-icon:not(.has-toggle) input {
+    padding-right: 14px;
+  }
+  
+  .toggle-password {
+    right: 8px;
+    width: 32px;
+    height: 32px;
+  }
+}
+
+/* Modo oscuro mejorado */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text-primary: #ffffff;
+    --text-secondary: #b0b0b0;
+    --text-muted: #808080;
+    --background-light: #2a2a2a;
+    --border-light: #404040;
+  }
+  
+  .auth-form {
+    background: #1e1e1e;
+    color: var(--text-primary);
+  }
+  
+  .input-with-icon input {
+    background: var(--background-light);
+    color: var(--text-primary);
+  }
+  
+  .terms-group {
+    background: #2a2a2a;
+    border-color: #404040;
+  }
+}
+
+/* Accesibilidad mejorada */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Focus visible para navegación por teclado */
+.toggle-password:focus-visible,
+.auth-button:focus-visible,
+.terms-link:focus-visible {
+  outline: 2px solid var(--primary-blue);
+  outline-offset: 2px;
+}
+
+/* Estados de validación */
+.form-group.error input {
+  border-color: var(--error-text);
+  background: #fef2f2;
+}
+
+.form-group.success input {
+  border-color: var(--success-text);
+  background: #f0fdf4;
+}
+
+.form-group.error .input-with-icon i {
+  color: var(--error-text);
+}
+
+.form-group.success .input-with-icon i {
+  color: var(--success-text);
+}
