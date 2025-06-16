@@ -9,7 +9,7 @@ import { AuthResponseDTO } from '../models/auth-response-dto.model';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']   // tu CSS scoped aquí
+  styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
   form!: FormGroup;
@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private auth: AuthService,
     private router: Router
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.form = this.fb.group({
@@ -38,6 +38,7 @@ export class LoginComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
+
     const creds: LoginUserDTO = {
       emailAddress: this.form.value.emailAddress,
       password: this.form.value.password
@@ -45,13 +46,28 @@ export class LoginComponent implements OnInit {
 
     this.auth.login(creds).subscribe({
       next: (res: RespuestaGeneralDTO) => {
-        // Si viene un token bajo res.data.token, lo guardamos
         const token = (res.data as AuthResponseDTO)?.token;
+
         if (token) {
+          // Limpia token anterior
+          localStorage.removeItem('token');
+
+          // Guarda nuevo token
           localStorage.setItem('token', token);
+
+          // 🔍 Mostrar token y expiración en consola (opcional)
+          try {
+            const payload = JSON.parse(atob(token.split('.')[1]));
+            const expDate = new Date(payload.exp * 1000);
+            console.log('📦 Nuevo token guardado:', token);
+            console.log('⏳ Expira:', expDate.toLocaleString());
+          } catch (e) {
+            console.warn('⚠️ No se pudo decodificar el token');
+          }
+
+          // Redirigir
           this.router.navigate(['/dashboard']);
         } else {
-          // Si no vino token, mostramos el mensaje de error/back
           this.errorMessage = res.message;
         }
       },
@@ -61,4 +77,3 @@ export class LoginComponent implements OnInit {
     });
   }
 }
-

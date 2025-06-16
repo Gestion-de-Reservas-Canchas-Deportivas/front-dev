@@ -1,0 +1,124 @@
+<div class="dashboard-container">
+  <!-- Sidebar -->
+  <aside class="dashboard-sidebar">
+    <div class="sidebar-header">
+      <img src="assets/images/logo.jpg" alt="ReservaCanchas Logo" class="sidebar-logo" />
+      <h2>ReservaCanchas</h2>
+    </div>
+    <nav class="sidebar-nav">
+      <ul>
+        <li><a routerLink="/dashboard"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+        <li class="active"><a routerLink="/court-types"><i class="fas fa-futbol"></i><span>Tipos de Canchas</span></a></li>
+        <li><a routerLink="/pricing"><i class="fas fa-tag"></i><span>Precios por Cancha</span></a></li>
+        <li><a routerLink="/schedule"><i class="fas fa-clock"></i><span>Horarios Disponibles</span></a></li>
+      </ul>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="user-profile">
+        <img src="assets/images/user-avatar.jpg" alt="Usuario" class="user-avatar" />
+        <div class="user-info">
+          <span class="user-name">Admin</span>
+          <span class="user-role">Administrador</span>
+        </div>
+      </div>
+      <a routerLink="/" class="logout-btn"><i class="fas fa-sign-out-alt"></i><span>Cerrar Sesión</span></a>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="dashboard-content">
+    <header class="content-header">
+      <h1><i class="fas fa-futbol"></i> Gestión de Tipos de Canchas</h1>
+      <div class="header-actions">
+        <button class="btn btn-primary" (click)="abrirModal()">
+          <i class="fas fa-plus"></i> Agregar Tipo
+        </button>
+      </div>
+    </header>
+
+    <div class="card">
+      <div class="table-responsive">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Tipo de Cancha</th>
+              <th>Descripción</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let tipo of tiposCancha">
+              <td>{{ tipo.id }}</td>
+              <td>{{ tipo.name }}</td>
+              <td>{{ tipo.description }}</td>
+              <td>
+                <span class="badge" [ngClass]="tipo.activo ? 'active' : 'inactive'">
+                  {{ tipo.activo ? 'ACTIVO' : 'INACTIVO' }}
+                </span>
+              </td>
+              <td>
+                <button class="btn-icon edit" (click)="abrirModal(tipo)">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn-icon delete" (click)="eliminar(tipo.id)">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Modal para agregar/editar tipos de cancha -->
+<div class="modal" id="court-type-modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 id="modal-court-type-title">Agregar Tipo de Cancha</h3>
+      <button class="modal-close" (click)="cerrarModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <form>
+        <div class="form-group">
+          <label for="court-type-name">Nombre del Tipo</label>
+          <input
+            type="text"
+            id="court-type-name"
+            class="form-control"
+            [(ngModel)]="tipoActual.name"
+            name="name"
+          />
+        </div>
+        <div class="form-group">
+          <label for="court-type-desc">Descripción</label>
+          <textarea
+            id="court-type-desc"
+            class="form-control"
+            [(ngModel)]="tipoActual.description"
+            name="description"
+          ></textarea>
+        </div>
+        <div class="form-group">
+          <label for="court-type-status">Estado</label>
+          <select
+            id="court-type-status"
+            class="form-control"
+            [(ngModel)]="tipoActual.activo"
+            name="activo"
+          >
+            <option [ngValue]="true">Activo</option>
+            <option [ngValue]="false">Inactivo</option>
+          </select>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline modal-cancel" (click)="cerrarModal()">Cancelar</button>
+      <button class="btn btn-primary modal-save" (click)="guardarTipo()">Guardar</button>
+    </div>
+  </div>
+</div>

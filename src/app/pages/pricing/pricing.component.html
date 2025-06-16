@@ -1,0 +1,134 @@
+<!-- HTML corregido para sidebar con routerLinkActive bien aplicado -->
+<div class="dashboard-container">
+  <!-- Sidebar -->
+  <aside class="dashboard-sidebar">
+    <div class="sidebar-header">
+      <img src="assets/images/logo.jpg" alt="ReservaCanchas Logo" class="sidebar-logo" />
+      <h2>ReservaCanchas</h2>
+    </div>
+
+    <nav class="sidebar-nav">
+      <ul>
+        <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          <a routerLink="/dashboard"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a>
+        </li>
+        <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          <a routerLink="/court-types"><i class="fas fa-futbol"></i><span>Tipos de Canchas</span></a>
+        </li>
+        <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          <a routerLink="/pricing"><i class="fas fa-tag"></i><span>Precios por Cancha</span></a>
+        </li>
+        <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          <a routerLink="/schedule"><i class="fas fa-clock"></i><span>Horarios Disponibles</span></a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-profile">
+        <img src="assets/images/user-avatar.jpg" alt="Usuario" class="user-avatar" />
+        <div class="user-info">
+          <span class="user-name">Admin</span>
+          <span class="user-role">Administrador</span>
+        </div>
+      </div>
+      <a routerLink="/" class="logout-btn"><i class="fas fa-sign-out-alt"></i><span>Cerrar Sesión</span></a>
+    </div>
+  </aside>
+
+  <main class="dashboard-content">
+    <header class="content-header">
+      <h1><i class="fas fa-tag"></i> Asignación de Precios por Cancha</h1>
+      <div class="header-actions">
+        <button class="btn btn-primary" (click)="abrirModal()"><i class="fas fa-plus"></i> Agregar Precio</button>
+      </div>
+    </header>
+
+    <div class="card">
+      <div class="filters">
+        <div class="filter-group">
+          <label for="court-type-filter">Tipo de Cancha:</label>
+          <select id="court-type-filter" class="form-control" [(ngModel)]="canchaSeleccionadaId" name="filtroCancha" (change)="cargarPrecios()">
+            <option [ngValue]="0">Todos</option>
+            <option *ngFor="let c of canchas" [ngValue]="c.id">{{ c.name }}</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label for="day-type-filter">Tipo de Día:</label>
+          <select id="day-type-filter" class="form-control" [(ngModel)]="tipoDiaSeleccionado" (change)="cargarPrecios()">
+            <option value="">Todos</option>
+            <option value="weekday">Día de semana</option>
+            <option value="weekend">Fin de semana</option>
+            <option value="holiday">Feriado</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Tipo de Cancha</th>
+              <th>Horario</th>
+              <th>Tipo de Día</th>
+              <th>Precio ($)</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody *ngIf="canchas.length && horarios.length">
+            <tr *ngFor="let precio of precios">
+              <td>{{ precio.id }}</td>
+              <td>{{ getNombreCancha(precio.canchaId) }}</td>
+              <td>{{ getHorario(precio.horarioId) }}</td>
+              <td>
+                <span class="badge" [ngClass]="getBadgeClass(precio.horarioId)">{{ getDiaSemana(precio.horarioId) }}</span>
+              </td>
+              <td>\${{ precio.precio | number:'1.2-2' }}</td>
+              <td>
+                <button class="btn-icon edit" (click)="editarPrecio(precio)"><i class="fas fa-edit"></i></button>
+                <button class="btn-icon delete" (click)="eliminarPrecio(precio)"><i class="fas fa-trash"></i></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Modal -->
+<div class="modal" id="pricing-modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 id="modal-pricing-title">{{ editando ? 'Editar Precio' : 'Agregar Precio' }}</h3>
+      <button class="modal-close" (click)="cerrarModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <form>
+        <div class="form-group">
+          <label for="pricing-court-type">Tipo de Cancha</label>
+          <select id="pricing-court-type" class="form-control" [(ngModel)]="nuevoPrecio.canchaId" name="canchaId" required>
+            <option value="">Seleccionar...</option>
+            <option *ngFor="let cancha of canchas" [value]="cancha.id">{{ cancha.name }}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="pricing-time-range">Horario</label>
+          <select id="pricing-time-range" class="form-control" [(ngModel)]="nuevoPrecio.horarioId" name="horarioId" required>
+            <option value="">Seleccionar...</option>
+            <option *ngFor="let h of horarios" [value]="h.id">{{ h.horaInicio }} - {{ h.horaFin }}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="pricing-amount">Precio ($)</label>
+          <input type="number" id="pricing-amount" class="form-control" min="0" step="0.01" [(ngModel)]="nuevoPrecio.precio" name="precio" required />
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline modal-cancel" (click)="cerrarModal()">Cancelar</button>
+      <button class="btn btn-primary modal-save" (click)="guardarPrecio()">Guardar</button>
+    </div>
+  </div>
+</div>

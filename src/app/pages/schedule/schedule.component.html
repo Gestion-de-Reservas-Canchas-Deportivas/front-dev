@@ -1,0 +1,130 @@
+<div class="dashboard-container">
+  <!-- Sidebar -->
+  <aside class="dashboard-sidebar">
+    <div class="sidebar-header">
+      <img src="assets/images/logo.jpg" alt="ReservaCanchas Logo" class="sidebar-logo" />
+      <h2>ReservaCanchas</h2>
+    </div>
+
+    <nav class="sidebar-nav">
+      <ul>
+        <li><a routerLink="/dashboard"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+        <li><a routerLink="/court-types"><i class="fas fa-futbol"></i><span>Tipos de Canchas</span></a></li>
+        <li><a routerLink="/pricing"><i class="fas fa-tag"></i><span>Precios por Cancha</span></a></li>
+        <li class="active"><a routerLink="/schedule"><i class="fas fa-clock"></i><span>Horarios Disponibles</span></a></li>
+      </ul>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-profile">
+        <img src="assets/images/user-avatar.jpg" alt="Usuario" class="user-avatar" />
+        <div class="user-info">
+          <span class="user-name">Admin</span>
+          <span class="user-role">Administrador</span>
+        </div>
+      </div>
+      <a routerLink="/" class="logout-btn"><i class="fas fa-sign-out-alt"></i><span>Cerrar Sesión</span></a>
+    </div>
+  </aside>
+
+  <main class="dashboard-content">
+    <header class="content-header">
+      <h1><i class="fas fa-clock"></i> Configuración de Horarios Disponibles</h1>
+      <div class="header-actions">
+        <button class="btn btn-primary" (click)="abrirModal()">
+          <i class="fas fa-plus"></i> Agregar Horario
+        </button>
+      </div>
+    </header>
+
+    <div class="card">
+      <div class="filters">
+        <div class="filter-group">
+          <label for="schedule-court-filter">Tipo de Cancha:</label>
+          <select id="schedule-court-filter" class="form-control" [(ngModel)]="filtroCanchaId" (change)="filtrarHorarios()">
+            <option [ngValue]="0">Todos</option>
+            <option *ngFor="let cancha of canchas" [ngValue]="cancha.id">{{ cancha.name }}</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label for="schedule-day-filter">Día de la semana:</label>
+          <select id="schedule-day-filter" class="form-control" [(ngModel)]="filtroDiaSemana" (change)="filtrarHorarios()">
+            <option value="">Todos</option>
+            <option *ngFor="let dia of diasSemana" [value]="dia.value">{{ dia.label }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Tipo de Cancha</th>
+              <th>Día</th>
+              <th>Horario</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let horario of horariosFiltrados">
+              <td>{{ horario.id }}</td>
+              <td>{{ getNombreCancha(horario.canchaId) }}</td>
+              <td>{{ traducirDia(horario.diaSemana) }}</td>
+              <td>{{ horario.horaInicio }} - {{ horario.horaFin }}</td>
+              <td><span class="badge active">Activo</span></td>
+              <td>
+                <button class="btn-icon edit" (click)="editarHorario(horario)">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn-icon delete" (click)="eliminarHorario(horario.id)">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Modal -->
+<div class="modal" id="schedule-modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 id="modal-schedule-title">{{ editando ? 'Editar Horario' : 'Agregar Horario' }}</h3>
+      <button class="modal-close" (click)="cerrarModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <form>
+        <div class="form-group">
+          <label for="schedule-court-type">Tipo de Cancha</label>
+          <select id="schedule-court-type" class="form-control" [(ngModel)]="nuevoHorario.canchaId" name="canchaId" required>
+            <option value="">Seleccionar...</option>
+            <option *ngFor="let cancha of canchas" [value]="cancha.id">{{ cancha.name }}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="schedule-day">Día</label>
+          <select id="schedule-day" class="form-control" [(ngModel)]="nuevoHorario.diaSemana" name="diaSemana" required>
+            <option *ngFor="let dia of diasSemana" [value]="dia.value">{{ dia.label }}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="schedule-start-time">Hora de inicio</label>
+          <input type="time" id="schedule-start-time" class="form-control" [(ngModel)]="nuevoHorario.horaInicio" name="horaInicio" required />
+        </div>
+        <div class="form-group">
+          <label for="schedule-end-time">Hora de fin</label>
+          <input type="time" id="schedule-end-time" class="form-control" [(ngModel)]="nuevoHorario.horaFin" name="horaFin" required />
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline modal-cancel" (click)="cerrarModal()">Cancelar</button>
+      <button class="btn btn-primary modal-save" (click)="guardarHorario()">Guardar</button>
+    </div>
+  </div>
+</div>
