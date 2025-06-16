@@ -7,6 +7,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { ScheduleComponent } from './pages/schedule/schedule.component';
 import { CourtTypesComponent } from './pages/court-types/court-types.component';
 import { PricingComponent } from './pages/pricing/pricing.component';
+import { ReservasComponent } from './pages/reservas/reservas.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -15,8 +16,10 @@ const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: 'schedule', component: ScheduleComponent },
   { path: 'court-types', component: CourtTypesComponent },
-    { path: 'pricing', component: PricingComponent },
-  // { path: 'dashboard', component: DashboardComponent },  etc.
+  { path: 'pricing', component: PricingComponent },
+  { path: 'reservas', component: ReservasComponent }
+
+
 ];
 
 @NgModule({

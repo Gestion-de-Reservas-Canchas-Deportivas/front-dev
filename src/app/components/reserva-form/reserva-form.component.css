@@ -1,0 +1,54 @@
+.form-reserva {
+  max-width: 500px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.form-reserva .form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-reserva label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #222; /* letras negras */
+}
+
+.form-reserva input,
+.form-reserva select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  color: #222; /* letras negras */
+  background-color: #f9f9f9;
+}
+
+.form-reserva input:focus,
+.form-reserva select:focus {
+  border-color: #4CAF50;
+  outline: none;
+  background-color: #fff;
+}
+
+.form-reserva button {
+  display: block;
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  background-color: #2d5a27;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.form-reserva button:hover {
+  background-color: #1e3d1a;
+}

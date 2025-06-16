@@ -1,0 +1,106 @@
+.card {
+  background-color: white;
+  border-left: 4px solid #4caf50;
+  padding: 1rem 1.5rem;
+  margin-bottom: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.card-header h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.25rem;
+  color: #333;
+}
+
+.card-header .reservation-date {
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.card-body {
+  margin-top: 1rem;
+}
+
+.detail-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  color: #444;
+}
+
+.detail-row i {
+  color: #4caf50;
+}
+
+.reservation-actions {
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.75rem;
+}
+
+.reservation-actions .btn {
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: 0.4rem;
+}
+.reserva-card {
+  background: #fff;
+  border-left: 5px solid #4CAF50;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.reserva-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.reserva-info h3 {
+  margin: 0 0 0.5rem 0;
+  font-weight: 600;
+  color: #2d5a27;
+}
+
+.reserva-info p {
+  margin: 0.2rem 0;
+  color: #333;
+}
+
+.badge-confirmada {
+  background-color: #c8f7c5;
+  color: #2d5a27;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.reserva-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.btn {
+  border: none;
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-cancelar {
+  background-color: #dc3545;
+  color: white;
+}
+
+.btn-modificar {
+  background-color: #ffc107;
+  color: #000;
+}

@@ -22,4 +22,9 @@ export class CanchaService {
   getPrecios(canchaId: number, horarioId: number): Observable<Precio[]> {
     return this.http.get<Precio[]>(`${this.baseUrl}/${canchaId}/horarios/${horarioId}/precios`);
   }
+
+  getAllPrecios(): Observable<Precio[]> {
+  return this.http.get<Precio[]>('http://localhost:8080/api/v1/precios/all');
+}
+
 }

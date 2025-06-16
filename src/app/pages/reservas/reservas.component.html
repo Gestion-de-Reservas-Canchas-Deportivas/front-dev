@@ -1,0 +1,106 @@
+<div class="dashboard-container">
+  <!-- Sidebar -->
+<aside class="dashboard-sidebar">
+  <div class="sidebar-header">
+    <img src="assets/images/logo.jpg" alt="ReservaCanchas Logo" class="sidebar-logo" />
+    <h2>ReservaCanchas</h2>
+  </div>
+
+  <nav class="sidebar-nav">
+    <ul>
+      <li>
+        <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          <i class="fas fa-tachometer-alt"></i><span>Dashboard</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/court-types" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          <i class="fas fa-futbol"></i><span>Tipos de Canchas</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/pricing" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          <i class="fas fa-tag"></i><span>Precios por Cancha</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/schedule" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          <i class="fas fa-clock"></i><span>Horarios Disponibles</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="user-profile">
+      <img src="assets/images/user-avatar.jpg" alt="Usuario" class="user-avatar" />
+      <div class="user-info">
+        <span class="user-name">Admin</span>
+        <span class="user-role">Administrador</span>
+      </div>
+    </div>
+    <a routerLink="/" class="logout-btn">
+      <i class="fas fa-sign-out-alt"></i>
+      <span>Cerrar Sesión</span>
+    </a>
+  </div>
+</aside>
+
+
+  <main class="dashboard-content">
+    <!-- Navegación por tabs -->
+    <div class="tabs-nav">
+      <button class="tab-button" [ngClass]="{ 'active': selectedTab === 'nueva-reserva' }"
+        (click)="showTab('nueva-reserva')">
+        <i class="fas fa-calendar-plus"></i> Nueva Reserva
+      </button>
+      <button class="tab-button" [ngClass]="{ 'active': selectedTab === 'mis-reservas' }"
+        (click)="showTab('mis-reservas')">
+        <i class="fas fa-list"></i> Mis Reservas
+      </button>
+    </div>
+
+    <!-- Formulario de nueva reserva -->
+    <app-reserva-form *ngIf="selectedTab === 'nueva-reserva'" [form]="reservaForm" [tiposCanchas]="tiposCanchas"
+      (submitReserva)="crearReserva()"></app-reserva-form>
+
+    <!-- Lista de reservas -->
+    <div *ngIf="selectedTab === 'mis-reservas'">
+      <div *ngFor="let reserva of reservas" class="card mb-3 p-3 border-left">
+        <h5>⚽ Cancha ID: {{ reserva.canchaId }}</h5>
+        <p>📅 Fecha: {{ reserva.fecha }}</p>
+        <p>🕒 Horario: {{ reserva.horaInicio }} - {{ reserva.horaFin }}</p>
+        <div class="d-flex gap-2">
+          <button (click)="cancelarReserva(reserva.id)" class="btn btn-danger">Cancelar</button>
+          <button (click)="abrirModalModificar(reserva)" class="btn btn-warning">Modificar</button>
+        </div>
+      </div>
+    </div>
+
+<!-- Modal de modificación -->
+<div class="modal active" *ngIf="mostrarModal && reservaSeleccionada">
+  <div class="modal-content">
+    <h3>Modificar Reserva</h3>
+    <form (ngSubmit)="confirmarModificacion()" #modForm="ngForm" class="modal-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Fecha:</label>
+          <input type="date" class="form-control" [(ngModel)]="reservaSeleccionada!.fecha" name="fecha" required />
+        </div>
+        <div class="form-group">
+          <label>Hora Inicio:</label>
+          <input type="time" class="form-control" [(ngModel)]="reservaSeleccionada!.horaInicio" name="horaInicio" required />
+        </div>
+        <div class="form-group">
+          <label>Hora Fin:</label>
+          <input type="time" class="form-control" [(ngModel)]="reservaSeleccionada!.horaFin" name="horaFin" required />
+        </div>
+      </div>
+
+      <div class="modal-actions mt-3">
+        <button type="submit" class="btn btn-primary">Confirmar</button>
+        <button type="button" class="btn btn-secondary" (click)="cerrarModal()">Cancelar</button>
+      </div>
+    </form>
+  </div>
+</div>

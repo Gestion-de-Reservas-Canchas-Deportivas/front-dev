@@ -1,0 +1,21 @@
+<div class="tab-content">
+  <div class="reserva-card" *ngFor="let reserva of reservas">
+    <div class="reserva-header">
+      <div class="reserva-info">
+        <h3><i class="fas fa-futbol"></i> Cancha ID: {{ reserva.canchaId }}</h3>
+        <p><i class="fas fa-calendar-day"></i> Fecha: <strong>{{ reserva.fecha }}</strong></p>
+        <p><i class="fas fa-clock"></i> Horario: <strong>{{ reserva.horaInicio }} - {{ reserva.horaFin }}</strong></p>
+      </div>
+      <span class="badge-confirmada">CONFIRMADA</span>
+    </div>
+
+    <div class="reserva-actions">
+      <button class="btn btn-cancelar" (click)="cancelar.emit(reserva.id!)">
+        <i class="fas fa-times-circle"></i> Cancelar
+      </button>
+      <button class="btn btn-modificar" (click)="actualizar.emit(reserva)">
+        <i class="fas fa-edit"></i> Modificar
+      </button>
+    </div>
+  </div>
+</div>

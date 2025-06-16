@@ -16,8 +16,9 @@ import { ScheduleComponent } from './pages/schedule/schedule.component';
 import { CourtTypesComponent } from './pages/court-types/court-types.component';
 import { PricingComponent } from './pages/pricing/pricing.component';
 import { HorarioService } from './services/horario.service';
-
-
+import { ReservasComponent } from './pages/reservas/reservas.component';
+import { ReservaFormComponent } from './components/reserva-form/reserva-form.component';
+import { ReservaListComponent } from './components/reserva-list/reserva-list.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,7 +28,11 @@ import { HorarioService } from './services/horario.service';
     RegisterComponent,
     ScheduleComponent,
     CourtTypesComponent,
-    PricingComponent
+    PricingComponent,
+    ReservasComponent,
+    ReservaFormComponent,
+    ReservaListComponent
+
   ],
   imports: [
     BrowserModule,
