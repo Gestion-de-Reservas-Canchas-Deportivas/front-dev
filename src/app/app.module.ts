@@ -19,6 +19,8 @@ import { HorarioService } from './services/horario.service';
 import { ReservasComponent } from './pages/reservas/reservas.component';
 import { ReservaFormComponent } from './components/reserva-form/reserva-form.component';
 import { ReservaListComponent } from './components/reserva-list/reserva-list.component';
+import { ReportesComponent } from './pages/reportes/reportes.component';
+import { FacturacionComponent } from './facturacion/facturacion.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,7 +33,9 @@ import { ReservaListComponent } from './components/reserva-list/reserva-list.com
     PricingComponent,
     ReservasComponent,
     ReservaFormComponent,
-    ReservaListComponent
+    ReservaListComponent,
+    ReportesComponent,
+    FacturacionComponent
 
   ],
   imports: [

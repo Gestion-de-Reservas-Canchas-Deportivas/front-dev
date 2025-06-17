@@ -1,0 +1,94 @@
+<div class="reportes-container">
+  <div class="titulo-reportes">
+    <h2>📊 Reportes</h2>
+    <p>Consulta reportes de uso de canchas y facturación</p>
+    <a routerLink="/dashboard" class="volver-dashboard">← Volver al Dashboard</a>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <a routerLink="/reportes" class="tab-btn">📝 Uso de Canchas</a>
+    <a routerLink="/facturacion" class="tab-btn active">💲 Facturación</a>
+  </div>
+
+  <!-- Filtros -->
+  <div class="filtros-card">
+    <h4><i class="fas fa-filter"></i> Filtros de Búsqueda</h4>
+    <form (ngSubmit)="generarReporte()" class="filtros-grid">
+      <div>
+        <label>Fecha de Inicio</label>
+        <input type="date" [(ngModel)]="filtros.fechaInicio" name="fechaInicio" required />
+      </div>
+      <div>
+        <label>Fecha de Fin</label>
+        <input type="date" [(ngModel)]="filtros.fechaFin" name="fechaFin" required />
+      </div>
+      <div>
+        <label>Tipo de Cancha</label>
+        <select [(ngModel)]="filtros.tipoCanchaId" name="tipoCanchaId">
+          <option [ngValue]="null">Todos los tipos</option>
+          <option *ngFor="let tipo of tiposCanchas" [value]="tipo.id">{{ tipo.nombre }}</option>
+        </select>
+      </div>
+      <div>
+        <label>Usuario</label>
+        <select [(ngModel)]="filtros.usuarioId" name="usuarioId">
+          <option [ngValue]="null">Todos los usuarios</option>
+          <option *ngFor="let user of usuarios" [value]="user.id">{{ user.nombre }}</option>
+        </select>
+      </div>
+      <div class="filtros-acciones">
+        <button type="button" class="btn btn-outline" (click)="limpiarFiltros()">Limpiar Filtros</button>
+        <button type="submit" class="btn btn-primary">Generar Reporte</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Métricas -->
+  <div class="resumen-metricas">
+    <div class="metric-card green">
+      <h3>{{ totalFacturado | currency:'COP' }}</h3>
+      <p>Total Facturado</p>
+    </div>
+    <div class="metric-card blue">
+      <h3>{{ resumen.length }}</h3>
+      <p>Reservas Pagadas</p>
+    </div>
+    <div class="metric-card orange">
+      <h3>{{ calcularPromedioPorReserva() | currency:'COP' }}</h3>
+      <p>Promedio por Reserva</p>
+    </div>
+    <div class="metric-card gray">
+      <h3>{{ calcularIngresosDiariosProm() | currency:'COP' }}</h3>
+      <p>Ingresos Diarios Prom.</p>
+    </div>
+  </div>
+
+  <!-- Tabla (opcional) -->
+  <div class="tabla-resultados mt-4" *ngIf="resumen.length">
+    <table>
+      <thead>
+        <tr>
+          <th>Reserva ID</th>
+          <th>Usuario</th>
+          <th>Tipo Cancha</th>
+          <th>Fecha</th>
+          <th>Inicio</th>
+          <th>Fin</th>
+          <th>Monto</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let r of resumen">
+          <td>{{ r.reservaId }}</td>
+          <td>{{ r.usuarioId }}</td>
+          <td>{{ r.tipoCancha }}</td>
+          <td>{{ r.fecha }}</td>
+          <td>{{ r.horaInicio }}</td>
+          <td>{{ r.horaFin }}</td>
+          <td>{{ r.monto | currency:'COP' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

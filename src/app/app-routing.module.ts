@@ -8,6 +8,8 @@ import { ScheduleComponent } from './pages/schedule/schedule.component';
 import { CourtTypesComponent } from './pages/court-types/court-types.component';
 import { PricingComponent } from './pages/pricing/pricing.component';
 import { ReservasComponent } from './pages/reservas/reservas.component';
+import { ReportesComponent } from './pages/reportes/reportes.component';
+import { FacturacionComponent } from './facturacion/facturacion.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -17,7 +19,9 @@ const routes: Routes = [
   { path: 'schedule', component: ScheduleComponent },
   { path: 'court-types', component: CourtTypesComponent },
   { path: 'pricing', component: PricingComponent },
-  { path: 'reservas', component: ReservasComponent }
+  { path: 'reservas', component: ReservasComponent },
+  { path: 'facturacion', component: FacturacionComponent },
+  { path: 'reportes', component: ReportesComponent}
 
 
 ];
