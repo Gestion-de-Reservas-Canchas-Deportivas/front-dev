@@ -12,19 +12,15 @@ export class FacturacionService {
 
   constructor(private http: HttpClient) {}
 
-  obtenerResumen(
-    inicio: string,
-    fin: string,
-    tipoCanchaId?: number,
-    usuarioId?: number
-  ): Observable<FacturacionResponse> {
-    let params = new HttpParams()
-      .set('inicio', inicio)
-      .set('fin', fin);
+obtenerResumen(inicio: string, fin: string, tipoCanchaId?: number, usuarioId?: number) {
+  const params: any = {
+    inicio,
+    fin
+  };
+  if (tipoCanchaId !== undefined) params.tipoCanchaId = tipoCanchaId;
+  if (usuarioId !== undefined) params.usuarioId = usuarioId;
 
-    if (tipoCanchaId) params = params.set('tipoCanchaId', tipoCanchaId);
-    if (usuarioId) params = params.set('usuarioId', usuarioId);
+  return this.http.get<FacturacionResponse>(this.apiUrl, { params });
+}
 
-    return this.http.get<FacturacionResponse>(this.apiUrl, { params });
-  }
 }

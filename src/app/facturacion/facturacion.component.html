@@ -1,94 +1,167 @@
-<div class="reportes-container">
-  <div class="titulo-reportes">
-    <h2>📊 Reportes</h2>
-    <p>Consulta reportes de uso de canchas y facturación</p>
-    <a routerLink="/dashboard" class="volver-dashboard">← Volver al Dashboard</a>
-  </div>
+<!-- facturacion.component.html corregido con sidebar -->
 
-  <!-- Tabs -->
-  <div class="tabs">
-    <a routerLink="/reportes" class="tab-btn">📝 Uso de Canchas</a>
-    <a routerLink="/facturacion" class="tab-btn active">💲 Facturación</a>
-  </div>
+<div class="dashboard-container">
+  <!-- Sidebar -->
+  <aside class="dashboard-sidebar">
+    <div class="sidebar-header">
+      <img src="assets/images/logo.jpg" alt="ReservaCanchas Logo" class="sidebar-logo" />
+      <h2>ReservaCanchas</h2>
+    </div>
 
-  <!-- Filtros -->
-  <div class="filtros-card">
-    <h4><i class="fas fa-filter"></i> Filtros de Búsqueda</h4>
-    <form (ngSubmit)="generarReporte()" class="filtros-grid">
-      <div>
-        <label>Fecha de Inicio</label>
-        <input type="date" [(ngModel)]="filtros.fechaInicio" name="fechaInicio" required />
-      </div>
-      <div>
-        <label>Fecha de Fin</label>
-        <input type="date" [(ngModel)]="filtros.fechaFin" name="fechaFin" required />
-      </div>
-      <div>
-        <label>Tipo de Cancha</label>
-        <select [(ngModel)]="filtros.tipoCanchaId" name="tipoCanchaId">
-          <option [ngValue]="null">Todos los tipos</option>
-          <option *ngFor="let tipo of tiposCanchas" [value]="tipo.id">{{ tipo.nombre }}</option>
-        </select>
-      </div>
-      <div>
-        <label>Usuario</label>
-        <select [(ngModel)]="filtros.usuarioId" name="usuarioId">
-          <option [ngValue]="null">Todos los usuarios</option>
-          <option *ngFor="let user of usuarios" [value]="user.id">{{ user.nombre }}</option>
-        </select>
-      </div>
-      <div class="filtros-acciones">
-        <button type="button" class="btn btn-outline" (click)="limpiarFiltros()">Limpiar Filtros</button>
-        <button type="submit" class="btn btn-primary">Generar Reporte</button>
-      </div>
-    </form>
-  </div>
+    <nav class="sidebar-nav">
+      <ul>
+        <li>
+          <a routerLink="/dashboard">
+            <i class="fas fa-tachometer-alt"></i>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <a routerLink="/court-types">
+            <i class="fas fa-futbol"></i>
+            <span>Tipos de Canchas</span>
+          </a>
+        </li>
+        <li>
+          <a routerLink="/pricing">
+            <i class="fas fa-tag"></i>
+            <span>Precios por Cancha</span>
+          </a>
+        </li>
+        <li>
+          <a routerLink="/schedule">
+            <i class="fas fa-clock"></i>
+            <span>Horarios Disponibles</span>
+          </a>
+        </li>
+        <li class="active">
+          <a routerLink="/facturacion">
+            <i class="fas fa-file-invoice-dollar"></i>
+            <span>Facturación</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
 
-  <!-- Métricas -->
-  <div class="resumen-metricas">
-    <div class="metric-card green">
-      <h3>{{ totalFacturado | currency:'COP' }}</h3>
-      <p>Total Facturado</p>
+    <div class="sidebar-footer">
+      <div class="user-profile">
+        <img src="assets/images/user-avatar.jpg" alt="Usuario" class="user-avatar" />
+        <div class="user-info">
+          <span class="user-name">Admin</span>
+          <span class="user-role">Administrador</span>
+        </div>
+      </div>
+      <a routerLink="/" class="logout-btn">
+        <i class="fas fa-sign-out-alt"></i>
+        <span>Cerrar Sesión</span>
+      </a>
     </div>
-    <div class="metric-card blue">
-      <h3>{{ resumen.length }}</h3>
-      <p>Reservas Pagadas</p>
-    </div>
-    <div class="metric-card orange">
-      <h3>{{ calcularPromedioPorReserva() | currency:'COP' }}</h3>
-      <p>Promedio por Reserva</p>
-    </div>
-    <div class="metric-card gray">
-      <h3>{{ calcularIngresosDiariosProm() | currency:'COP' }}</h3>
-      <p>Ingresos Diarios Prom.</p>
-    </div>
-  </div>
+  </aside>
 
-  <!-- Tabla (opcional) -->
-  <div class="tabla-resultados mt-4" *ngIf="resumen.length">
-    <table>
-      <thead>
-        <tr>
-          <th>Reserva ID</th>
-          <th>Usuario</th>
-          <th>Tipo Cancha</th>
-          <th>Fecha</th>
-          <th>Inicio</th>
-          <th>Fin</th>
-          <th>Monto</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let r of resumen">
-          <td>{{ r.reservaId }}</td>
-          <td>{{ r.usuarioId }}</td>
-          <td>{{ r.tipoCancha }}</td>
-          <td>{{ r.fecha }}</td>
-          <td>{{ r.horaInicio }}</td>
-          <td>{{ r.horaFin }}</td>
-          <td>{{ r.monto | currency:'COP' }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <!-- Contenido principal -->
+  <main class="dashboard-content">
+    <div class="reportes-container">
+      <div class="titulo-reportes">
+        <h2>📊 Reportes</h2>
+        <p>Consulta reportes de uso de canchas y facturación</p>
+        <a routerLink="/dashboard" class="volver-dashboard">← Volver al Dashboard</a>
+      </div>
+
+      <!-- Tabs -->
+      <div class="tabs">
+        <a routerLink="/reportes" class="tab-btn">📝 Uso de Canchas</a>
+        <a routerLink="/facturacion" class="tab-btn active">💲 Facturación</a>
+      </div>
+
+      <!-- Filtros -->
+      <div class="filtros-card">
+        <h4><i class="fas fa-filter"></i> Filtros de Búsqueda</h4>
+        <form (ngSubmit)="generarReporte()" #formRef="ngForm" class="filtros-grid">
+          <div>
+            <label>Fecha de Inicio</label>
+            <input type="date" [(ngModel)]="filtros.fechaInicio" name="fechaInicio" required />
+          </div>
+          <div>
+            <label>Fecha de Fin</label>
+            <input type="date" [(ngModel)]="filtros.fechaFin" name="fechaFin" required />
+          </div>
+          <div>
+            <label>Tipo de Cancha</label>
+            <select [(ngModel)]="filtros.tipoCanchaId" name="tipoCanchaId">
+              <option [ngValue]="null">Todos los tipos</option>
+              <option *ngFor="let tipo of tiposCanchas" [ngValue]="tipo.id">
+                {{ tipo.nombre }}
+              </option>
+            </select>
+          </div>
+          <div>
+            <label>Usuario</label>
+            <select [(ngModel)]="filtros.usuarioId" name="usuarioId">
+              <option [ngValue]="null">Todos los usuarios</option>
+              <option *ngFor="let user of usuarios" [ngValue]="user.id">
+                {{ user.nombre }}
+              </option>
+            </select>
+          </div>
+          <div class="filtros-acciones">
+            <button type="button" class="btn btn-outline" (click)="limpiarFiltros()">Limpiar Filtros</button>
+            <button type="submit" class="btn btn-primary">Generar Reporte</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Métricas -->
+      <div class="resumen-metricas" *ngIf="resumen.length">
+        <div class="metric-card green">
+          <h3>{{ totalFacturado | currency:'COP' }}</h3>
+          <p>Total Facturado</p>
+        </div>
+        <div class="metric-card blue">
+          <h3>{{ resumen.length }}</h3>
+          <p>Reservas Pagadas</p>
+        </div>
+        <div class="metric-card orange">
+          <h3>{{ calcularPromedioPorReserva() | currency:'COP' }}</h3>
+          <p>Promedio por Reserva</p>
+        </div>
+        <div class="metric-card gray">
+          <h3>{{ calcularIngresosDiariosProm() | currency:'COP' }}</h3>
+          <p>Ingresos Diarios Prom.</p>
+        </div>
+      </div>
+
+      <!-- Tabla de resultados -->
+      <div class="tabla-resultados mt-4" *ngIf="resumen.length">
+        <table>
+          <thead>
+            <tr>
+              <th>Reserva ID</th>
+              <th>Usuario</th>
+              <th>Tipo Cancha</th>
+              <th>Fecha</th>
+              <th>Inicio</th>
+              <th>Fin</th>
+              <th>Monto</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let r of resumen">
+              <td>{{ r.reservaId }}</td>
+              <td>{{ r.usuarioId }}</td>
+              <td>{{ r.tipoCancha }}</td>
+              <td>{{ r.fecha }}</td>
+              <td>{{ r.horaInicio }}</td>
+              <td>{{ r.horaFin }}</td>
+              <td>{{ r.monto | currency:'COP' }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Sin resultados -->
+      <div *ngIf="!resumen.length" class="sin-resultados">
+        <p>No se encontraron resultados para los filtros seleccionados.</p>
+      </div>
+    </div>
+  </main>
 </div>

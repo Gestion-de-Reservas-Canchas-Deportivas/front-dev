@@ -40,4 +40,8 @@ update(id: number, data: TipoCancha): Observable<TipoCancha> {
   getById(id: number): Observable<TipoCancha> {
     return this.http.get<TipoCancha>(`${this.apiUrl}/${id}`);
   }
+
+    listar() {
+    return this.http.get<any[]>(`${this.apiUrl}/all`);
+  }
 }
